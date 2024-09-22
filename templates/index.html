@@ -1,26 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PH Meter</title>
+    <title>Dashboard de Agricultura Inteligente</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body class="center">
 
     <div class="container">
-        <div class="meter">
-            <div class="outer-circle center">
-                <div class="inner-circle">
-                    <div class="needle center"></div>
+
+        <!-- Algómetro de pH -->
+        <div class="algometer">
+            <h3>pH</h3>
+            <div class="meter">
+                <div class="outer-circle center">
+                    <div class="inner-circle">
+                        <div class="needle"></div>
+                    </div>
                 </div>
+            </div>
+            <div class="label center">
+                <span>pH Level 0</span>
             </div>
         </div>
 
-        <div class="label center">
-            <span>pH Level = 0</span>
+        <!-- Algómetro de Humedad del Aire -->
+        <div class="algometer">
+            <h3>Humedad del Aire</h3>
+            <div class="drop">
+                <div class="drop-fill"></div>
+            </div>
+            <div class="label center">
+                <span>Humedad Aire 0%</span>
+            </div>
+        </div>
+
+        <!-- Algómetro de Humedad del Aire -->
+        <div class="algometer">
+            <h3>Humedad del Suelo</h3>
+            <div class="meter">
+                <div class="outer-circle center">
+                    <div class="inner-circle">
+                        <div class="needle"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="label center">
+                <span>Humedad Suelo 0%</span>
+            </div>
+        </div>
+
+        
+
+        <!-- Termómetro de Temperatura -->
+        <div class="algometer">
+            <h3>Temperatura</h3>
+            <div class="thermometer">
+                <div class="mercury"></div>
+            </div>
+            <div class="label center">
+                <span>Temperatura 0°C</span>
+            </div>
+        </div>
+
+        <!-- Batería de Luz Solar -->
+        <div class="algometer">
+            <h3>Luz Solar</h3>
+            <img src="{{ url_for('static', filename='images/sun.png') }}" id="sun-icon" alt="">
+            <div class="battery">
+                <div class="battery-fill"></div>
+            </div>
+            <div class="label center">
+                <span>Luz Solar 0%</span>
+            </div>
         </div>
     </div>
+    
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
