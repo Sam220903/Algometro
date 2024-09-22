@@ -23,9 +23,17 @@ function updatePh(value) {
 
 // Función para actualizar la humedad del suelo
 function updateHumiditySoil(value) {
+    let max = 1024;
+    let percentage = value;
     let rotationDeg = -90 + (value * (180 / 100)); // Para porcentajes (0-100)
+    if (value > 100) {
+        percentage = (1 - (value/max)) * 100;
+        percentage = Math.round(percentage);
+
+        rotationDeg = -90 + (percentage * (180 / 100));
+    }
     algometers.humiditySoil.style.transform = `translate(-50%, -50%) rotate(${rotationDeg}deg)`;
-    labels.humiditySoil.textContent = `Humedad Suelo ${value}%`;
+    labels.humiditySoil.textContent = `Humedad Suelo ${percentage}%`;
 }
 
 // Función para actualizar la humedad del aire
@@ -46,16 +54,25 @@ function updateTemperature(value) {
 
 // Función para actualizar la batería (luz solar)
 function updateLight(value) {
+    let max = 1023;
+    let percentage = value;
     let height = (value / 100) * 100; // Luz solar en porcentaje
     height = Math.min(height, 100);   // Limitar a 100%
+    if (value > 100) {
+        percentage = (1 - (value / max)) * 100;
+        percentage = Math.round(percentage);
+        height = (percentage / 100) * 100;
+    }
     algometers.light.style.height = `${height}%`;
-    labels.light.textContent = `Luz Solar ${value}%`;
+    labels.light.textContent = `Luz Solar ${percentage}%`;
 }
 
 // Función para obtener los datos desde el servidor
 async function fetchData() {
     try {
-        const response = await fetch('/get_data');
+        const dataSource = document.getElementById('data-source').value;
+        const endpoint = dataSource === 'real' ? '/sensor_data' : '/get_data';
+        const response = await fetch(endpoint);
         const data = await response.json();
 
         // Actualizar cada algómetro con los datos recibidos
@@ -74,3 +91,6 @@ setInterval(fetchData, 2000);
 
 // Llamada inicial para mostrar datos al cargar la página
 fetchData();
+
+// Event listener para cambiar la fuente de datos
+document.getElementById('data-source').addEventListener('change', fetchData);
